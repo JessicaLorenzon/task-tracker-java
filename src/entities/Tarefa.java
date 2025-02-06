@@ -39,7 +39,4 @@ public class Tarefa {
 		return "Tarefa [id=" + id + ", conteudo=" + conteudo + ", status=" + status + "]";
 	}
 
-	
-
-
 }

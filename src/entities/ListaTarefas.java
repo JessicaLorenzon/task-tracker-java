@@ -30,20 +30,86 @@ public class ListaTarefas {
 		tarefas.remove(tarefaRemovida);
 	}
 
-	public void atualizarTarefa(int id, String novoConteudo) {
+	public void modificarTarefa(int id, String novoConteudo) {
 		for (Tarefa tarefa : tarefas) {
 			if (tarefa.getId() == id) {
 				tarefa.setConteudo(novoConteudo);
+				break;
+			}
+		}
+	}
+
+	public void marcarConcluido(int id) {
+		for (Tarefa tarefa : tarefas) {
+			if (tarefa.getId() == id) {
+				tarefa.setStatus(TarefaStatus.CONCLUIDO);
+				break;
+			}
+		}
+	}
+
+	public void marcarAndamento(int id) {
+		for (Tarefa tarefa : tarefas) {
+			if (tarefa.getId() == id) {
+				tarefa.setStatus(TarefaStatus.EM_ANDAMENTO);
+				break;
 			}
 		}
 	}
 
 	public void mostrarTela() {
-		for (Tarefa tarefa : tarefas) {
-			System.out.println("TAREFA: id= " + tarefa.getId() + ", conteudo= " + tarefa.getConteudo() + ", status= "
-					+ tarefa.getStatus());
+		if (tarefas.size() == 0) {
+			System.out.println("Lista de tarefas vazia. Adicione uma tarefa!");
+		} else {
+			for (Tarefa tarefa : tarefas) {
+				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
+						tarefa.getConteudo(), tarefa.getStatus());
+			}
 		}
-		;
 	}
 
+	public void listarConcluidas() {
+		boolean possuiConcluidas = false;
+
+		for (Tarefa tarefa : tarefas) {
+			if (tarefa.getStatus() == TarefaStatus.CONCLUIDO) {
+				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
+						tarefa.getConteudo(), tarefa.getStatus());
+				possuiConcluidas = true;
+			}
+		}
+		if (possuiConcluidas == false) {
+			System.out.println("Não existem tarefas concluidas!");
+		}
+	}
+
+	public void listarPendentes() {
+		boolean possuiPendentes = false;
+
+		for (Tarefa tarefa : tarefas) {
+			if (tarefa.getStatus() == TarefaStatus.PENDENTE) {
+				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
+						tarefa.getConteudo(), tarefa.getStatus());
+				possuiPendentes = true;
+			}
+		}
+		if (possuiPendentes == false) {
+			System.out.println("Não existem tarefas pendentes!");
+		}
+	}
+
+	public void listarAndamento() {
+		boolean possuiAndamento = false;
+
+		for (Tarefa tarefa : tarefas) {
+			if (tarefa.getStatus() == TarefaStatus.EM_ANDAMENTO) {
+				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
+						tarefa.getConteudo(), tarefa.getStatus());
+				possuiAndamento = true;
+			}
+		}
+		if (possuiAndamento == false) {
+			System.out.println("Não existem tarefas em andamento!");
+		}
+	}
 }
