@@ -15,44 +15,31 @@ public class ListaTarefas {
 	}
 
 	public void adicionarTarefa(String conteudo) {
-		tarefas.add(new Tarefa(id, conteudo, TarefaStatus.PENDENTE));
-		id++;
+		if (conteudo.isBlank()) {
+			System.out.println("Ação não reconhecida. Tente novamente!");
+		} else {
+			tarefas.add(new Tarefa(id, conteudo, TarefaStatus.PENDENTE));
+			id++;
+			System.out.println("Tarefa adicionada com sucesso!");
+		}
 	}
 
 	public void removerTarefa(int id) {
-		Tarefa tarefaRemovida = null;
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getId() == id) {
-				tarefaRemovida = tarefa;
-				break;
-			}
+		Tarefa tarefa = getTarefaPorId(id);
+		if (tarefa != null) {
+			tarefas.remove(tarefa);
+			System.out.println("Tarefa com ID: " + id + " removida com sucesso!");
 		}
-		tarefas.remove(tarefaRemovida);
 	}
 
 	public void modificarTarefa(int id, String novoConteudo) {
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getId() == id) {
+		Tarefa tarefa = getTarefaPorId(id);
+		if (novoConteudo.isBlank()) {
+			System.out.println("Tarefa vazia. Tente novamente!");
+		} else {
+			if (tarefa != null) {
 				tarefa.setConteudo(novoConteudo);
-				break;
-			}
-		}
-	}
-
-	public void marcarConcluido(int id) {
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getId() == id) {
-				tarefa.setStatus(TarefaStatus.CONCLUIDO);
-				break;
-			}
-		}
-	}
-
-	public void marcarAndamento(int id) {
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getId() == id) {
-				tarefa.setStatus(TarefaStatus.EM_ANDAMENTO);
-				break;
+				System.out.println("Tarefa com ID: " + id + " modificada com sucesso!");
 			}
 		}
 	}
@@ -62,54 +49,60 @@ public class ListaTarefas {
 			System.out.println("Lista de tarefas vazia. Adicione uma tarefa!");
 		} else {
 			for (Tarefa tarefa : tarefas) {
-				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
-						tarefa.getConteudo(), tarefa.getStatus());
+				System.out.println(tarefa);
 			}
 		}
+	}
+
+	public void marcarConcluido(int id) {
+		alterarStatus(id, TarefaStatus.CONCLUIDO);
+	}
+
+	public void marcarAndamento(int id) {
+		alterarStatus(id, TarefaStatus.EM_ANDAMENTO);
 	}
 
 	public void listarConcluidas() {
-		boolean possuiConcluidas = false;
-
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getStatus() == TarefaStatus.CONCLUIDO) {
-				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
-						tarefa.getConteudo(), tarefa.getStatus());
-				possuiConcluidas = true;
-			}
-		}
-		if (possuiConcluidas == false) {
-			System.out.println("Não existem tarefas concluidas!");
-		}
+		listarPorStatus(TarefaStatus.CONCLUIDO);
 	}
 
 	public void listarPendentes() {
-		boolean possuiPendentes = false;
-
-		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getStatus() == TarefaStatus.PENDENTE) {
-				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
-						tarefa.getConteudo(), tarefa.getStatus());
-				possuiPendentes = true;
-			}
-		}
-		if (possuiPendentes == false) {
-			System.out.println("Não existem tarefas pendentes!");
-		}
+		listarPorStatus(TarefaStatus.PENDENTE);
 	}
 
 	public void listarAndamento() {
-		boolean possuiAndamento = false;
+		listarPorStatus(TarefaStatus.EM_ANDAMENTO);
+	}
 
+	private void alterarStatus(int id, TarefaStatus status) {
+		Tarefa tarefa = getTarefaPorId(id);
+		if (tarefa != null) {
+			tarefa.setStatus(status);
+			System.out.println("Status da tarefa com ID: " + id + " atualizado com sucesso!");
+		}
+	}
+
+	private Tarefa getTarefaPorId(int id) {
 		for (Tarefa tarefa : tarefas) {
-			if (tarefa.getStatus() == TarefaStatus.EM_ANDAMENTO) {
-				System.out.printf("TAREFA %d: id = %d, \"%s\", status = %s \n", tarefa.getId() + 1, tarefa.getId(),
-						tarefa.getConteudo(), tarefa.getStatus());
-				possuiAndamento = true;
+			if (tarefa.getId() == id) {
+				return tarefa;
+			} else {
+				System.out.println("ID não encontrado. Tente novamente!");
 			}
 		}
-		if (possuiAndamento == false) {
-			System.out.println("Não existem tarefas em andamento!");
+		return null;
+	}
+
+	private void listarPorStatus(TarefaStatus status) {
+		boolean possuiStatus = false;
+		for (Tarefa tarefa : tarefas) {
+			if (tarefa.getStatus() == status) {
+				System.out.println(tarefa);
+				possuiStatus = true;
+			}
+		}
+		if (possuiStatus == false) {
+			System.out.println("Tarefas não encontradas!");
 		}
 	}
 }

@@ -28,7 +28,6 @@ public class Program {
 				System.out.print("Digite a nova tarefa: ");
 				String conteudo = sc.nextLine();
 				tarefas.adicionarTarefa(conteudo);
-				System.out.println("Tarefa adicionada com sucesso!");
 				System.out.println();
 				break;
 			case "2":
@@ -37,7 +36,6 @@ public class Program {
 				int idRemover = sc.nextInt();
 				sc.nextLine();
 				tarefas.removerTarefa(idRemover);
-				System.out.println("Tarefa com ID: " + idRemover + " removida com sucesso!");
 				System.out.println();
 				break;
 			case "3":
@@ -48,25 +46,22 @@ public class Program {
 				System.out.print("Digite o novo conteudo da tarefa: ");
 				String novoConteudo = sc.nextLine();
 				tarefas.modificarTarefa(idModificar, novoConteudo);
-				System.out.println("Tarefa com ID: " + idModificar + " modificada com sucesso!");
 				System.out.println();
 				break;
 			case "4":
 			case "marcar concluida":
-				System.out.print("Digite o ID da tarefa a ser modificada: ");
+				System.out.print("Digite o ID da tarefa a ser marcada como concluida: ");
 				int idConcluido = sc.nextInt();
 				sc.nextLine();
 				tarefas.marcarConcluido(idConcluido);
-				System.out.println("Tarefa com ID: " + idConcluido + " marcada como concluida!");
 				System.out.println();
 				break;
 			case "5":
 			case "marcar em andamento":
-				System.out.print("Digite o ID da tarefa a ser modificada: ");
+				System.out.print("Digite o ID da tarefa a ser marcada como em andamento: ");
 				int idAndamento = sc.nextInt();
 				sc.nextLine();
 				tarefas.marcarAndamento(idAndamento);
-				System.out.println("Tarefa com ID: " + idAndamento + " marcada como em andamento!");
 				System.out.println();
 				break;
 			case "6":
@@ -96,6 +91,7 @@ public class Program {
 				break;
 			default:
 				System.out.println("Ação não reconhecida. Tente novamente!");
+				System.out.println();
 			}
 		}
 		sc.close();

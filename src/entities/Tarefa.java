@@ -36,7 +36,8 @@ public class Tarefa {
 
 	@Override
 	public String toString() {
-		return "Tarefa [id=" + id + ", conteudo=" + conteudo + ", status=" + status + "]";
+		return "TAREFA " + (getId() + 1) + ": id = " + getId() + ", \"" + getConteudo() + "\", status = " + getStatus();
+
 	}
 
 }
