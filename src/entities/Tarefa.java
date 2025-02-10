@@ -7,11 +7,14 @@ public class Tarefa {
 	private Integer id;
 	private String conteudo;
 	private TarefaStatus status;
+	private String dataCriacao;
+	private String dataAtualizacao;
 
-	public Tarefa(Integer id, String conteudo, TarefaStatus status) {
+	public Tarefa(Integer id, String conteudo, TarefaStatus status, String dataCriacao) {
 		this.id = id;
 		this.conteudo = conteudo;
 		this.status = status;
+		this.dataCriacao = dataCriacao;
 	}
 
 	public String getConteudo() {
@@ -34,10 +37,30 @@ public class Tarefa {
 		return id;
 	}
 
-	@Override
-	public String toString() {
-		return "TAREFA " + (getId() + 1) + ": id = " + getId() + ", \"" + getConteudo() + "\", status = " + getStatus();
-
+	public String getdataCriacao() {
+		return dataCriacao;
 	}
 
+	public void setdataCriacao(String dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	public String getdataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setdataAtualizacao(String dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
+
+	@Override
+	public String toString() {
+		if (getdataAtualizacao() == null) {
+			return "TAREFA " + (getId() + 1) + ": id = " + getId() + ", \"" + getConteudo() + "\", status = "
+					+ getStatus() + ", criada em = " + getdataCriacao();
+		} else {
+			return "TAREFA " + (getId() + 1) + ": id = " + getId() + ", \"" + getConteudo() + "\", status = "
+					+ getStatus() + ", criada em = " + getdataCriacao() + ", atualizada em = " + getdataAtualizacao();
+		}
+	}
 }
