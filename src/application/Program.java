@@ -1,10 +1,27 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import entities.ListaTarefas;
+import entities.Tarefa;
+import entities.enums.TarefaStatus;
 
 public class Program {
+
+	private static final String nomeDoArquivo = "tarefas.csv";
+	public static String AreaTrabalhoUsuario = System.getProperty("user.home") + "/OneDrive/Área de Trabalho";
+	public static Path caminhoArquivo = Paths.get(AreaTrabalhoUsuario, nomeDoArquivo);
 
 	public static void main(String[] args) {
 
@@ -12,6 +29,34 @@ public class Program {
 
 		ListaTarefas tarefas = new ListaTarefas();
 
+		List<Tarefa> tarefasArquivo = new ArrayList<>();
+
+		if (Files.exists(caminhoArquivo)) {
+			try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo.toFile()))) {
+				String linha = br.readLine();
+				while (linha != null) {
+					String[] valores = linha.split(",");
+					int id = Integer.parseInt(valores[0]);
+					String conteudo = valores[1];
+					String statusStr = valores[2];
+					TarefaStatus status = TarefaStatus.valueOf(statusStr);
+					LocalDateTime dataCriacao = LocalDateTime.parse(valores[3]);
+					LocalDateTime dataAtualizacao = LocalDateTime.parse(valores[4]);
+
+					Tarefa novaTarefa = new Tarefa(id, conteudo, status);
+					novaTarefa.setdataCriacao(dataCriacao);
+					novaTarefa.setdataAtualizacao(dataAtualizacao);
+
+					tarefasArquivo.add(novaTarefa);
+
+					linha = br.readLine();
+				}
+				tarefas.setTarefas(tarefasArquivo);
+
+			} catch (IOException e) {
+				System.err.println("Erro ao ler o arquivo: " + e.getMessage());
+			}
+		}
 		System.out.println(menu());
 		while (true) {
 			System.out.print("O que deseja fazer? ");
@@ -19,6 +64,7 @@ public class Program {
 
 			if (acao.equals("sair") || acao.equals("11")) {
 				System.out.println("Task Traker encerrado!");
+				geradorArquivo(tarefas);
 				break;
 			}
 
@@ -112,5 +158,16 @@ public class Program {
 		sb.append("10 - Ajuda;\n");
 		sb.append("11 - Sair;\n");
 		return sb.toString();
+	}
+
+	public static void geradorArquivo(ListaTarefas tarefas) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(caminhoArquivo.toFile()))) {
+			for (Tarefa tarefa : tarefas.getTarefas()) {
+				bw.write(tarefa.tarefaBancoDados());
+				bw.newLine();
+			}
+		} catch (IOException e) {
+			System.err.println("Erro ao escrever no arquivo: " + e.getMessage());
+		}
 	}
 }

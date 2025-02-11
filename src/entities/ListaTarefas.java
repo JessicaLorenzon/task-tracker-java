@@ -1,7 +1,5 @@
 package entities;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,18 +9,20 @@ public class ListaTarefas {
 
 	private List<Tarefa> tarefas = new ArrayList<>();
 	private int id = 0;
-	
-	DateTimeFormatter fmt =  DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
 	public List<Tarefa> getTarefas() {
 		return tarefas;
+	}
+
+	public void setTarefas(List<Tarefa> tarefas) {
+		this.tarefas = tarefas;
 	}
 
 	public void adicionarTarefa(String conteudo) {
 		if (conteudo.isBlank()) {
 			System.out.println("Ação não reconhecida. Tente novamente!");
 		} else {
-			tarefas.add(new Tarefa(id, conteudo, TarefaStatus.PENDENTE, data()));
+			tarefas.add(new Tarefa(id, conteudo, TarefaStatus.PENDENTE));
 			id++;
 			System.out.println("Tarefa adicionada com sucesso!");
 		}
@@ -43,7 +43,6 @@ public class ListaTarefas {
 		} else {
 			if (tarefa != null) {
 				tarefa.setConteudo(novoConteudo);
-				tarefa.setdataAtualizacao(data());
 				System.out.println("Tarefa com ID: " + id + " modificada com sucesso!");
 			}
 		}
@@ -83,7 +82,6 @@ public class ListaTarefas {
 		Tarefa tarefa = getTarefaPorId(id);
 		if (tarefa != null) {
 			tarefa.setStatus(status);
-			tarefa.setdataAtualizacao(data());
 			System.out.println("Status da tarefa com ID: " + id + " atualizado com sucesso!");
 		}
 	}
@@ -110,9 +108,5 @@ public class ListaTarefas {
 		if (possuiStatus == false) {
 			System.out.println("Tarefas não encontradas!");
 		}
-	}
-	
-	private String data() {
-		return LocalDateTime.now().format(fmt);
 	}
 }
