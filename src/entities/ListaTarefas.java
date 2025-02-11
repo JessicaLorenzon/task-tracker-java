@@ -18,6 +18,14 @@ public class ListaTarefas {
 		this.tarefas = tarefas;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public void adicionarTarefa(String conteudo) {
 		if (conteudo.isBlank()) {
 			System.out.println("Ação não reconhecida. Tente novamente!");
@@ -90,10 +98,9 @@ public class ListaTarefas {
 		for (Tarefa tarefa : tarefas) {
 			if (tarefa.getId() == id) {
 				return tarefa;
-			} else {
-				System.out.println("ID não encontrado. Tente novamente!");
 			}
 		}
+		System.out.println("ID não encontrado. Tente novamente!");
 		return null;
 	}
 

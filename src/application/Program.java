@@ -34,6 +34,8 @@ public class Program {
 		if (Files.exists(caminhoArquivo)) {
 			try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo.toFile()))) {
 				String linha = br.readLine();
+				int ultimoId = 0;
+
 				while (linha != null) {
 					String[] valores = linha.split(",");
 					int id = Integer.parseInt(valores[0]);
@@ -43,6 +45,10 @@ public class Program {
 					LocalDateTime dataCriacao = LocalDateTime.parse(valores[3]);
 					LocalDateTime dataAtualizacao = LocalDateTime.parse(valores[4]);
 
+					if (id > ultimoId) {
+						ultimoId = id;
+					}
+
 					Tarefa novaTarefa = new Tarefa(id, conteudo, status);
 					novaTarefa.setdataCriacao(dataCriacao);
 					novaTarefa.setdataAtualizacao(dataAtualizacao);
@@ -51,6 +57,7 @@ public class Program {
 
 					linha = br.readLine();
 				}
+				tarefas.setId(ultimoId + 1);
 				tarefas.setTarefas(tarefasArquivo);
 
 			} catch (IOException e) {

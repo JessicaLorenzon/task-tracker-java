@@ -44,6 +44,10 @@ public class Tarefa {
 	public Integer getId() {
 		return id;
 	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public LocalDateTime getdataCriacao() {
 		return dataCriacao;
@@ -71,4 +75,5 @@ public class Tarefa {
 				+ ", criada em = " + getdataCriacao().format(fmt) + ", atualizada em = "
 				+ getdataAtualizacao().format(fmt);
 	}
+
 }
